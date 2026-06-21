@@ -283,12 +283,11 @@ hour_labels = {
     12: "12:00 PM", 13: "1:00 PM", 14: "2:00 PM", 15: "3:00 PM", 16: "4:00 PM", 17: "5:00 PM",
     18: "6:00 PM", 19: "7:00 PM", 20: "8:00 PM", 21: "9:00 PM", 22: "10:00 PM", 23: "11:00 PM"
 }
-selected_hour = st.sidebar.slider(
+selected_hour = st.sidebar.select_slider(
     "Time of Day",
-    min_value=0,
-    max_value=23,
+    options=list(range(24)),
     value=9,
-    format_func=lambda h: hour_labels.get(int(h), str(h))
+    format_func=lambda h: hour_labels.get(h, str(h))
 )
 
 # Day selector
