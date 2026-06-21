@@ -20,39 +20,74 @@ st.set_page_config(
 # Custom premium styling for Streamlit container
 st.markdown("""
 <style>
-    /* Main background */
-    .stApp {
-        background-color: #0e0e12;
-        color: #f8f8fa;
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+    /* Main background with carbon grids and red hub radial glow */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        font-family: 'Rajdhani', sans-serif !important;
+        background-color: #06070d !important;
+        background-image: 
+            linear-gradient(rgba(0, 168, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 168, 255, 0.02) 1px, transparent 1px),
+            radial-gradient(ellipse at 50% 50%, rgba(255, 0, 60, 0.04) 0%, transparent 70%) !important;
+        background-size: 30px 30px, 30px 30px, 100% 100% !important;
+        color: #ffffff !important;
     }
     
-    /* Sidebar styling */
+    /* Sidebar styling with cyberpunk borders */
     section[data-testid="stSidebar"] {
-        background-color: #16161c !important;
-        border-right: 1px solid rgba(255, 199, 0, 0.15);
+        background-color: rgba(10, 12, 26, 0.95) !important;
+        border-right: 1px solid rgba(255, 0, 60, 0.35) !important;
+        box-shadow: 0 0 15px rgba(255, 0, 60, 0.1) !important;
+    }
+
+    section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] p, .stMarkdown {
+        font-family: 'Orbitron', sans-serif !important;
+        color: #8fa8ff !important;
+        font-size: 0.82rem !important;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
     }
     
     /* Headings */
-    h1, h2, h3 {
-        color: #FFC700 !important;
-        font-family: 'Inter', sans-serif;
-        font-weight: 800 !important;
+    h1, h2, h3, [data-testid="stHeader"] {
+        color: #FF003C !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.06em !important;
+        text-shadow: 0 0 8px rgba(255, 0, 60, 0.2) !important;
+    }
+
+    /* Buttons and controls */
+    div[data-baseweb="select"] *, div[role="listbox"] * {
+        font-family: 'Rajdhani', sans-serif !important;
+        background-color: #12142a !important;
+        color: #ffffff !important;
+    }
+
+    div[data-testid="stMarkdownContainer"] p strong {
+        color: #00A8FF !important;
     }
     
-    /* Recommendations Custom Cards */
+    /* Recommendations Custom Cards with angled cuts */
     .rec-card {
-        background-color: rgba(28, 28, 36, 0.85);
-        border: 1px solid rgba(255, 199, 0, 0.15);
-        border-radius: 12px;
+        background-color: rgba(18, 22, 42, 0.7) !important;
+        border-left: 3px solid #FF003C !important;
+        border-top: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%) !important;
         padding: 16px;
         margin-bottom: 12px;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 0, 60, 0.05) !important;
+        transition: all 0.25s ease !important;
     }
     
     .rec-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(255, 199, 0, 0.35);
-        box-shadow: 0 4px 20px rgba(255, 199, 0, 0.05);
+        transform: translateY(-2px) !important;
+        border-left: 3px solid #00A8FF !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 168, 255, 0.15), inset 0 0 10px rgba(0, 168, 255, 0.05) !important;
     }
     
     .rec-header {
@@ -63,40 +98,56 @@ st.markdown("""
     }
     
     .rec-name {
-        font-size: 1rem;
-        font-weight: 800;
-        color: #f8f8fa;
-    }
-    
-    .rec-score {
-        font-size: 1.1rem;
-        font-weight: 800;
-        color: #00ff88;
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: 0.04em;
     }
     
     .rec-desc {
         font-size: 0.8rem;
-        color: #a0a0b2;
+        color: #8fa8ff;
         margin-top: 4px;
+        font-family: 'Rajdhani', sans-serif !important;
     }
     
     .rec-badge {
-        background: rgba(0, 255, 136, 0.12);
-        color: #00ff88;
+        font-family: 'Orbitron', sans-serif !important;
+        background: rgba(255, 0, 60, 0.15) !important;
+        color: #FF003C !important;
+        border: 1px solid rgba(255, 0, 60, 0.3) !important;
         padding: 2px 8px;
-        border-radius: 10px;
+        border-radius: 4px;
         font-size: 0.65rem;
         font-weight: 800;
         text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .rec-badge.badge-medium {
+        background: rgba(255, 215, 0, 0.15) !important;
+        color: #FFD700 !important;
+        border: 1px solid rgba(255, 215, 0, 0.3) !important;
+    }
+
+    .rec-badge.badge-low {
+        background: rgba(0, 168, 255, 0.15) !important;
+        color: #00A8FF !important;
+        border: 1px solid rgba(0, 168, 255, 0.3) !important;
     }
     
-    /* Model Info */
+    /* Model Info Boxes */
     .model-stat-box {
-        background: rgba(28, 28, 36, 0.5);
-        border: 1px solid rgba(255, 199, 0, 0.1);
-        border-radius: 8px;
+        background: rgba(10, 12, 26, 0.75) !important;
+        border-left: 2px solid #00A8FF !important;
+        border-top: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%) !important;
         padding: 12px;
         text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -262,11 +313,15 @@ auto_toy_b64 = get_base64_toy_image()
 # ============================================================================
 # Styled header matching brand
 st.markdown("""
-<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 199, 0, 0.25);">
-    <div style="font-size: 2.2rem; transform: rotate(-5deg); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛺</div>
+<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 0, 60, 0.35);">
+    <div style="color: #FF003C; filter: drop-shadow(0 0 8px rgba(255, 0, 60, 0.6)); display: flex; align-items: center;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a1.5 1.5 0 0 1 1.5 1.5c0 .35-.12.67-.32.93l1.83 1.83c1.4-.4 2.82.26 3.32 1.54.42 1.07.13 2.27-.64 3.03l-2.07 2.07 1.41 1.41c1.55-.4 3.14.34 3.69 1.77.56 1.45.02 3.1-1.25 3.96l-2.73 1.82 2.12 2.12a1 1 0 0 1-1.41 1.41l-2.83-2.83c-1-.5-1.92-1.28-2.67-2.27-.75.99-1.67 1.77-2.67 2.27l-2.83 2.83a1 1 0 1 1-1.41-1.41l2.12-2.12-2.73-1.82c-1.27-.86-1.81-2.51-1.25-3.96.55-1.43 2.14-2.17 3.69-1.77l1.41-1.41-2.07-2.07c-.77-.76-1.06-1.96-.64-3.03.5-1.28 1.92-1.94 3.32-1.54l1.83-1.83c-.2-.26-.32-.58-.32-.93A1.5 1.5 0 0 1 12 2zm0 5.5a2.5 2.5 0 0 0-2.5 2.5c0 1.04.64 1.93 1.54 2.3l-.3 1.7L12 15.5l1.26-1.5.3-1.7c.9-.37 1.54-1.26 1.54-2.3a2.5 2.5 0 0 0-2.5-2.5z"/>
+        </svg>
+    </div>
     <div>
-        <h1 style="margin: 0; line-height: 1.1; font-size: 2rem;">AutoProfit AI</h1>
-        <p style="margin: 2px 0 0 0; color: #a0a0b2; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;">Smart Location Intelligence for Auto Drivers</p>
+        <h1 style="margin: 0; line-height: 1.1; font-size: 2.2rem; font-family: 'Orbitron', sans-serif; font-weight: 900; color: #FF003C; letter-spacing: 0.08em; text-shadow: 0 0 10px rgba(255, 0, 60, 0.4);">AutoProfit AI</h1>
+        <p style="margin: 2px 0 0 0; color: #8fa8ff; font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Smart Location Intelligence for Auto Drivers</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -274,7 +329,7 @@ st.markdown("""
 # ============================================================================
 # SIDEBAR CONTROLS
 # ============================================================================
-st.sidebar.markdown("### 🎛️ Prediction Controls")
+st.sidebar.markdown("### 🕸️ Suit HUD Controls")
 
 # Hour selector
 hour_labels = {
@@ -334,7 +389,7 @@ top_recs = high_demand_zones[:3]
 col_map, col_stats = st.columns([7, 3])
 
 with col_map:
-    st.markdown("### 🗺️ Demand Hotspot Map")
+    st.markdown("### 🕸️ Tactical Map Overlay")
     
     # Read HTML map template and inject base64 auto toy image & predictions JSON
     try:
@@ -353,20 +408,24 @@ with col_map:
         st.error(f"Error loading map template: {e}")
 
 with col_stats:
-    st.markdown("### 🏆 Top Waiting Zones")
+    st.markdown("### 🎯 High-Yield Zones")
     
     if top_recs:
         for idx, rec in enumerate(top_recs):
             rank = idx + 1
+            demand_level = rec.get('demand_level', 'Medium')
+            level_class = demand_level.lower()
+            badge_label = f"{demand_level} Demand"
+            score_color = "#FF003C" if demand_level == "High" else "#FFD700" if demand_level == "Medium" else "#00A8FF"
             st.markdown(f"""
-            <div class="rec-card">
+            <div class="rec-card {level_class}">
                 <div class="rec-header">
                     <span class="rec-name">#{rank} {rec['name']}</span>
-                    <span class="rec-badge">High Demand</span>
+                    <span class="rec-badge badge-{level_class}">{badge_label}</span>
                 </div>
-                <div style="font-size: 0.85rem; color: #a0a0b2; margin-top: 4px;">
-                    <div>Type: <strong>{rec['type'].capitalize()} Area</strong></div>
-                    <div>Demand Score: <strong style="color: #00ff88;">{round(rec['demand_score'])}%</strong></div>
+                <div style="font-size: 0.85rem; color: #8fa8ff; margin-top: 4px; font-family: 'Rajdhani', sans-serif;">
+                    <div>Type: <strong style="color: #ffffff;">{rec['type'].capitalize()} Area</strong></div>
+                    <div>Demand Score: <strong style="color: {score_color}; font-family: 'Orbitron', sans-serif;">{round(rec['demand_score'])}%</strong></div>
                 </div>
                 <div class="rec-desc">{rec['description']}</div>
             </div>
@@ -375,39 +434,39 @@ with col_stats:
         st.info("No high/medium demand zones found. Zoom in or change filters.")
         
     # Model info panel
-    st.markdown("### 🤖 ML Model Performance")
+    st.markdown("### 🖥️ OS Analytics")
     if model_info is not None:
         acc = model_info.get("classifier_accuracy", 0.8471) * 100
         r2 = model_info.get("regressor_r2", 0.8979)
         st.markdown(f"""
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'Rajdhani', sans-serif;">
             <div class="model-stat-box">
-                <div style="font-size: 0.72rem; text-transform: uppercase; color: #a0a0b2;">Classifier Acc</div>
-                <div style="font-size: 1.25rem; font-weight: 800; color: #FFC700;">{acc:.2f}%</div>
+                <div style="font-size: 0.72rem; text-transform: uppercase; color: #8fa8ff; font-family: 'Orbitron', sans-serif;">Classifier Acc</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #00A8FF; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 5px rgba(0, 168, 255, 0.4);">{acc:.2f}%</div>
             </div>
             <div class="model-stat-box">
-                <div style="font-size: 0.72rem; text-transform: uppercase; color: #a0a0b2;">Regressor R²</div>
-                <div style="font-size: 1.25rem; font-weight: 800; color: #FFC700;">{r2:.4f}</div>
+                <div style="font-size: 0.72rem; text-transform: uppercase; color: #8fa8ff; font-family: 'Orbitron', sans-serif;">Regressor R²</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #00A8FF; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 5px rgba(0, 168, 255, 0.4);">{r2:.4f}</div>
             </div>
         </div>
-        <div style="font-size: 0.75rem; color: #a0a0b2; margin-top: 10px; text-align: center;">
-            Algorithm: <strong>Random Forest Ensemble</strong>
+        <div style="font-size: 0.75rem; color: #8fa8ff; margin-top: 10px; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Orbitron', sans-serif;">
+            Algorithm: <strong style="color: #ffffff;">Random Forest Ensemble</strong>
         </div>
         """, unsafe_allow_html=True)
     else:
         # Mock values
         st.markdown("""
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'Rajdhani', sans-serif;">
             <div class="model-stat-box">
-                <div style="font-size: 0.72rem; text-transform: uppercase; color: #a0a0b2;">Classifier Acc</div>
-                <div style="font-size: 1.25rem; font-weight: 800; color: #FFC700;">84.71%</div>
+                <div style="font-size: 0.72rem; text-transform: uppercase; color: #8fa8ff; font-family: 'Orbitron', sans-serif;">Classifier Acc</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #00A8FF; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 5px rgba(0, 168, 255, 0.4);">84.71%</div>
             </div>
             <div class="model-stat-box">
-                <div style="font-size: 0.72rem; text-transform: uppercase; color: #a0a0b2;">Regressor R²</div>
-                <div style="font-size: 1.25rem; font-weight: 800; color: #FFC700;">0.8979</div>
+                <div style="font-size: 0.72rem; text-transform: uppercase; color: #8fa8ff; font-family: 'Orbitron', sans-serif;">Regressor R²</div>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #00A8FF; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 5px rgba(0, 168, 255, 0.4);">0.8979</div>
             </div>
         </div>
-        <div style="font-size: 0.75rem; color: #a0a0b2; margin-top: 10px; text-align: center;">
-            Algorithm: <strong>Random Forest Ensemble (Fallback)</strong>
+        <div style="font-size: 0.75rem; color: #8fa8ff; margin-top: 10px; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Orbitron', sans-serif;">
+            Algorithm: <strong style="color: #ffffff;">Random Forest Ensemble (Fallback)</strong>
         </div>
         """, unsafe_allow_html=True)
