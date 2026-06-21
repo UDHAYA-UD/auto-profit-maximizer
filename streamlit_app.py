@@ -288,7 +288,7 @@ selected_hour = st.sidebar.slider(
     min_value=0,
     max_value=23,
     value=9,
-    format_func=lambda h: hour_labels[h]
+    format_func=lambda h: hour_labels.get(int(h), str(h))
 )
 
 # Day selector
