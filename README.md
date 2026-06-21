@@ -1,96 +1,93 @@
-# 🛺 AutoProfit AI — Location Intelligence for Chennai Auto Drivers
+# 🛺 AutoProfit AI — Chennai Auto-Rickshaw Demand Predictor
 
-AutoProfit AI is a predictive machine learning web application designed to help auto-rickshaw drivers in Chennai maximize their daily earnings by predicting passenger demand hotspots in real-time. By minimizing empty driving (cruising for passengers), the application saves expensive LPG fuel and increases driver profits.
-
----
-
-## 🌟 Key Features
-
-*   **Interactive Hotspot Map:** Displays passenger demand levels (High 🟢, Medium 🟡, Low 🔴) across 18 major zones in Chennai.
-*   **3D Auto Toy Markers:** High-demand zones feature cute **3D auto-rickshaw toy models** that float and bob in 3D perspective above the map, casting realistic synced shadows underneath.
-*   **Location Recommendation Engine:** Shows the Top 3 recommended waiting zones with specific area descriptions (e.g., Transit Hub, Market District, Hospital Zone).
-*   **Custom Predictor Controls:** Filter demand dynamically by adjusting:
-    *   Time of day (Hour)
-    *   Day of week
-    *   Weather conditions (Clear, Cloudy, Light Rain, Heavy Rain)
-    *   Temperature
-*   **Machine Learning Under the Hood:** Uses custom-trained Random Forest Classifier (84.71% accuracy) and Regressor models trained on local event schedules, weather patterns, and POIs.
-*   **Dual Deployment Options:** Can be run locally as a Flask application or deployed directly to **Streamlit Cloud** for web sharing.
+AutoProfit AI is an intelligent location-based decision-support web application designed to help auto-rickshaw drivers in Chennai maximize their daily earnings by predicting passenger demand hotspots in real-time. By minimizing empty cruising (driving around searching for passengers), the application helps drivers save expensive LPG/petrol, minimize fuel waste, and optimize their working hours.
 
 ---
 
-## 🛠️ Technology Stack
+## 🎯 Project Objectives
 
-*   **Frontend:** HTML5, CSS3 (Custom 3D Animations & Transitions), JavaScript (Leaflet.js map integration).
-*   **Backend:** Python 3, Flask (API Server) & Streamlit (Dashboard).
-*   **Machine Learning:** Scikit-Learn (Random Forest Ensemble), Pandas, NumPy, Joblib.
+1. **Minimize Idle Fuel Consumption:** Reduce the fuel wasted by Chennai auto drivers driving empty between rides during low-demand periods.
+2. **Maximize Daily Earnings:** Recommend optimal waiting locations (hotspots) in real-time to connect drivers with passengers faster.
+3. **Data-Driven Decision Support:** Leverage historical patterns, points of interest (POIs), weather conditions, and temporal features to make intelligent zone recommendations.
+4. **Dual Interface Deployment:** Provide a map-first interface (Flask) for driver dispatch and a clean dashboard interface (Streamlit) for deployment on Streamlit Cloud.
+
+---
+
+## 📊 Data Sources & Features
+
+The machine learning models are trained on a comprehensive dataset of **30,316 demand samples** representing trips across Chennai, engineered from the following data sources:
+
+1. **Geographic Points of Interest (POIs):** Real geographic locations of 18 major transit, commercial, residential, and medical hubs in Chennai (e.g., Chennai Central, T. Nagar, Egmore, Koyambedu Bus Terminus, Guindy IT corridor, Adyar, Velachery, and Mylapore).
+2. **POI Density & Proximity Features:** Features indicating the presence of key passenger generators:
+   * Total nearby POIs count
+   * Presence of hospitals, schools, markets, railway stations, and bus stops
+3. **Weather Condition Inputs:** Live weather condition codes (Clear, Cloudy, Light Rain, Heavy Rain) and temperature ranges (25°C to 40°C) which heavily impact public transit usage.
+4. **Cyclical Temporal Encoding:** Time of day (0-23 hours) and Day of week (0-6) mapped using trigonometric functions (`sine` and `cosine` transforms) to help the machine learning models recognize periodic daily and weekly patterns.
+
+---
+
+## 🤖 Machine Learning Pipeline & Algorithms
+
+To make accurate real-time recommendations, the system uses two **Supervised Machine Learning Ensemble Models** (Random Forest) trained on the engineered dataset:
+
+### 1. Random Forest Classifier (Demand Level Predictor)
+* **Objective:** Categorize the demand level of each Chennai zone into `High` (🟢), `Medium` (🟡), or `Low` (🔴).
+* **Accuracy:** **84.71%**
+* **Usage:** Determines color-coding of markers on the map and identifies recommendation filters.
+
+### 2. Random Forest Regressor (Demand Score Predictor)
+* **Objective:** Predict a continuous demand score (0-100) representing passenger density.
+* **Performance:** **R² Score of 0.8979** (with an average Mean Absolute Error of only 5.79 points).
+* **Usage:** Controls the dynamic scale radius of demand circles on the map.
+
+### 3. Feature Importance
+The ML models rank features in the following order of importance:
+1. Hour of the Day (Peak hours vs Off-peak)
+2. Weather Conditions (Rain increases auto demand)
+3. Temperature
+4. Proximity to Transit Hubs (Railway Stations, Bus Termini)
+
+---
+
+## 🛠️ Technology Stack & Frameworks
+
+* **Frontend Visualization:** 
+  * **Leaflet.js:** Renders the map using dark theme CartoDB tiles.
+  * **Custom CSS3 Animations:** Implements a floating **3D Auto-Rickshaw Toy** marker on high-demand zones. The toy auto bobs in 3D space (`bobFloat` animation) and casts a realistic synced floor shadow (`shadowShrink` animation).
+* **Backend Frameworks:** 
+  * **Flask** (served locally on port 5000 with interactive REST APIs).
+  * **Streamlit** (served on port 8501 and deployed to Streamlit Cloud).
+* **Core Libraries:** `scikit-learn` (model training), `pandas` & `numpy` (data pipeline), `joblib` (model serialization), `Pillow` (image background processing).
 
 ---
 
 ## 🚀 How to Run Locally
 
 ### 1. Install Dependencies
-Ensure you have Python installed, then clone the repository and run:
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Generate Data & Scrape POIs (Optional)
-If you want to re-generate the dataset or scrape Chennai POIs from OpenStreetMap, run:
 ```bash
 python scraper.py
 ```
 
 ### 3. Train the ML Models
-To train the Random Forest models on the dataset and save them, run:
 ```bash
 python train_model.py
 ```
 
-### 4. Start the Application
-You can start the app in two different modes:
+### 4. Run the Web App
 
-#### Option A: Flask Server (Map-First Interface)
+#### Flask Server (Map-First Interface)
 ```bash
 python app.py
 ```
-Open **[http://localhost:5000](http://localhost:5000)** in your web browser.
+Open **[http://localhost:5000](http://localhost:5000)**.
 
-#### Option B: Streamlit Dashboard (Tactile Sidebar Panel)
+#### Streamlit Dashboard (Community Cloud deployment)
 ```bash
 streamlit run streamlit_app.py
 ```
-Open the local URL displayed in your terminal (usually **[http://localhost:8501](http://localhost:8501)**).
-
----
-
-## 🌐 How to Deploy to Streamlit Cloud
-
-1.  **Push the repository to GitHub** (see instructions below).
-2.  Go to **[Streamlit Cloud](https://streamlit.io/cloud)** and log in with your GitHub account.
-3.  Click **New App**.
-4.  Select your repository, branch (e.g., `main`), and set the main file path to `streamlit_app.py`.
-5.  Click **Deploy!**
-
----
-
-## 🐙 Push to your GitHub Repository
-
-Run these commands in your project terminal to push the codebase to your GitHub:
-
-```bash
-# 1. Initialize git
-git init
-
-# 2. Commit the changes
-git add .
-git commit -m "Initial commit: AutoProfit AI Chennai Driver Optimizer"
-
-# 3. Add your remote repository link (Replace with your actual GitHub URL)
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-
-# 4. Rename default branch to main and push
-git branch -M main
-git push -u origin main
-```
-*(Note: Make sure you create a new repository on GitHub first before running step 3).*
+Open **[http://localhost:8501](http://localhost:8501)**.
