@@ -1,0 +1,39 @@
+name,lat,lng,category
+Apollo Hospital,13.0067,80.2565,hospital
+MIOT Hospital,13.0155,80.187,hospital
+Fortis Malar Hospital,13.0065,80.254,hospital
+Government General Hospital,13.076,80.274,hospital
+Royapettah Government Hospital,13.052,80.262,hospital
+Sri Ramachandra Hospital,13.0382,80.1582,hospital
+Kauvery Hospital,13.045,80.235,hospital
+Koyambedu Bus Terminus,13.0694,80.1948,bus_stop
+T.Nagar Bus Stop,13.0418,80.2341,bus_stop
+Adyar Bus Depot,13.005,80.255,bus_stop
+Broadway Bus Stand,13.087,80.28,bus_stop
+Tambaram Bus Stop,12.925,80.101,bus_stop
+Guindy Bus Stop,13.0067,80.22,bus_stop
+Vadapalani Bus Stop,13.0526,80.2121,bus_stop
+Anna Nagar Bus Stop,13.085,80.2101,bus_stop
+Chennai Central,13.0827,80.2707,railway_station
+Chennai Egmore,13.0732,80.2609,railway_station
+Tambaram Railway Station,12.9249,80.1,railway_station
+Guindy Railway Station,13.009,80.213,railway_station
+Chromepet Railway Station,12.9516,80.1462,railway_station
+Mambalam Railway Station,13.039,80.231,railway_station
+T.Nagar Ranganathan Street,13.041,80.233,market
+Pondy Bazaar,13.044,80.237,market
+Koyambedu Wholesale Market,13.071,80.195,market
+Parry's Corner Market,13.092,80.287,market
+Mylapore Market,13.034,80.269,market
+IIT Madras,12.9941,80.2336,school
+Anna University,13.0108,80.2354,school
+Loyola College,13.053,80.25,school
+Stella Maris College,13.0589,80.2439,school
+Presidency College,13.066,80.257,school
+Kapaleeshwarar Temple,13.0339,80.2695,temple
+Vadapalani Murugan Temple,13.052,80.212,temple
+Parthasarathy Temple,13.058,80.273,temple
+Phoenix Marketcity,12.99,80.217,mall
+Express Avenue Mall,13.059,80.264,mall
+VR Chennai,13.063,80.209,mall
+Forum Vijaya Mall,13.051,80.213,mall
